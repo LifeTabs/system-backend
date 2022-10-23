@@ -1,14 +1,14 @@
-const view = (req, res, next) => {
-  res.send("OK")
-}
+const view = (req, res) => {
+	res.send("OK");
+};
 
 const middlewares = [
-  (req, res, next) => {
-    next()
-  },
+	(req, res, next) => {
+		next();
+	},
 
-]
+];
 export default {
-  view,
-  middlewares
-}
+	view,
+	middlewares
+};

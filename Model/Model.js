@@ -1,11 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 class Model {
-  prisma
-  constructor() {
+	prisma = prisma;
+	constructor() {
 
-  }
+	}
 }
-export default Model
+export default Model;

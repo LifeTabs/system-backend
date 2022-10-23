@@ -33,7 +33,8 @@
   },
   "scripts": {
     "server": "nodemon server.js",
-    "seed": "npx prisma db seed"
+    "seed": "npx prisma db seed",
+    "lint": "eslint . --ext .js,.mjs --fix --ignore-path .gitignore"
   },
   "type": "module",
   "keywords": [],
@@ -41,5 +42,9 @@
   "license": "ISC",
   "prisma": {
     "seed": "node seed/User.js"
+  },
+  "devDependencies": {
+    "eslint": "^8.26.0",
+    "eslint-plugin-import": "^2.26.0"
   }
 }
