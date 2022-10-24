@@ -1,7 +1,7 @@
 import * as request from "#request";
 import Users from "#users";
 import response from "#response";
-import { onlyUser } from "../../../middlewares/Authentication.js";
+import { onlyUser } from "#authentication";
 const params = [
 	"email",
 	"password",

@@ -3,6 +3,7 @@ import signup from "../src/controllers/api/user/signup.js";
 import login from "../src/controllers/api/user/login.js";
 import updateUser from "../src/controllers/api/user/update.js";
 import UserInfo from "../src/controllers/api/user/info.js";
+import ShareToday from "../src/controllers/api/share/today.js"
 
 const routers = [
 	{
@@ -30,5 +31,10 @@ const routers = [
 		path: "/api/user",
 		controller: UserInfo
 	},
+	{
+		method: "get",
+		path: "/api/share/today",
+		controller: ShareToday
+	}
 ];
 export default routers;

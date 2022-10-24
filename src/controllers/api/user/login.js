@@ -2,7 +2,7 @@ import Users from "#users";
 import response from "#response";
 import * as request from "#request";
 import { encode as jwt_encode } from "#jwt";
-import { onlyGuess } from "../../../middlewares/Authentication.js";
+import { onlyGuess } from "#authentication";
 
 const params = [
 	"email",

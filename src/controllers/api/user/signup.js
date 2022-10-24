@@ -1,6 +1,6 @@
 import Users from "#users";
 import response from "#response";
-import { onlyGuess } from "../../../middlewares/Authentication.js";
+import { onlyGuess } from "#authentication";
 
 const view = (req, res) => {
 	const newUser = new Users();

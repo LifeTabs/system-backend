@@ -1,7 +1,7 @@
 
 import response from "#response";
 import Users from "#users";
-import { onlyUser } from "../../../middlewares/Authentication.js";
+import { onlyUser } from "#authentication";
 const view = (req, res) => {
 	const user = Users();
 	user.findUnique({
