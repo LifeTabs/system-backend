@@ -13,7 +13,6 @@ jobs:
   deployment:
 
     runs-on: self-hosted
-    container: lifetab-backend
     services:
       nodejs:
         image: node:16.0
