@@ -12,7 +12,7 @@ on:
 jobs:
   deployment:
 
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [16.x]
@@ -27,15 +27,14 @@ jobs:
           cache: 'npm'
       # Performs a clean installation of all dependencies in the `package.json` file
       # For more information, see https://docs.npmjs.com/cli/ci.html
-      - name: Install dependencies
-        run: npm install
+      # - name: Install dependencies
+      #   run: npm install
 
       - name: Deploy production
         if: github.ref == 'refs/heads/master'
-        uses: garygrossgarten/github-action-scp@release
+        uses: appleboy/ssh-action@master
         with:
-          local: build
-          remote: ${{ secrets.HOME_PATH }}
           host: ${{ secrets.HOST }}
-          username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.PASSWORD }} 
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: "cd ~/system-backend && git pull origin master && npm install && npm run prod:server:restart"
