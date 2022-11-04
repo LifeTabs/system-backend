@@ -35,11 +35,13 @@
     "jsonwebtoken": "^8.5.1",
     "md5": "^2.3.0",
     "nodemon": "^2.0.20",
+    "pm2": "^5.2.2",
     "prisma": "^4.4.0",
     "uuid": "^9.0.0"
   },
   "scripts": {
     "server": "nodemon server.js",
+    "prod:server": "pm2 start server.js",
     "seed": "npx prisma db seed",
     "lint": "eslint . --ext .js,.mjs --fix --ignore-path .gitignore",
     "postinstall": "husky install"

@@ -28,4 +28,4 @@ jobs:
         cache: 'npm'
     - run: |
         npm install
-        npm run server
+        npm run prod:server
