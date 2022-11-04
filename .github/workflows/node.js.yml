@@ -18,7 +18,7 @@ jobs:
       nodejs:
         image: node:16.0
       ports:
-          - 3000:3000
+        - 3000:3000
     steps:
       # Downloads a copy of the code in your repository before running CI tests
       - name: Check out repository code
