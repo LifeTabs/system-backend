@@ -33,11 +33,11 @@ jobs:
 
       - name: Deploy production
         if: github.ref == 'refs/heads/master'
-        uses: fifsky/ssh-action@v0.0.6
+        uses: garygrossgarten/github-action-ssh@release
         with:
           host: ${{ secrets.HOST }}
-          user: ${{ secrets.USERNAME }}
-          pass: ${{ secrets.PASSWORD }}
+          username: ${{ secrets.USERNAME }}
+          password : ${{ secrets.PASSWORD }}
           command: |
             ls -la
             pwd
