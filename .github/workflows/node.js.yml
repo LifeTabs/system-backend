@@ -8,7 +8,8 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
-
+  env:
+    PROJECT_PATH: ${{ secrets.HOME_PATH }}
 jobs:
   deployment:
 
@@ -37,4 +38,8 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          script: "cd ~/system-backend && git pull origin master && npm install && npm run prod:server:restart"
+          envs: PROJECT_PATH
+          script: |
+            ls -la
+            pwd
+            "cd ~/system-backend && git pull origin master && npm install && npm run prod:server:restart"
