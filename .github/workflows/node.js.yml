@@ -33,13 +33,12 @@ jobs:
 
       - name: Deploy production
         if: github.ref == 'refs/heads/master'
-        uses: appleboy/ssh-action@master
+        uses: fifsky/ssh-action@v0.0.6
         with:
           host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          envs: PROJECT_PATH
-          script: |
+          user: ${{ secrets.USERNAME }}
+          pass: ${{ secrets.PASSWORD }}
+          command: |
             ls -la
             pwd
             "cd ~/system-backend && git pull origin master && npm install && npm run prod:server:restart"
