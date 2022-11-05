@@ -42,7 +42,7 @@
   "scripts": {
     "server": "nodemon server.js",
     "prod:server": "pm2 start server.js --name lifetabBackend",
-    "prod:server:restart": "pm2 start server.js --name lifetabBackend",
+    "prod:server:restart": "pm2 restart lifetabBackend",
     "seed": "npx prisma db seed",
     "lint": "eslint . --ext .js,.mjs --fix --ignore-path .gitignore",
     "postinstall": "husky install"
