@@ -36,7 +36,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          command: |
+          script: |
             cd ~/system-backend
             git pull origin master
             npm install
