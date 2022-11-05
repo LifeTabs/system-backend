@@ -37,8 +37,9 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          password : ${{ secrets.PASSWORD }}
+          key: ${{ secrets.KEY }}
           command: |
-            ls -la
-            pwd
-            "cd ~/system-backend && git pull origin master && npm install && npm run prod:server:restart"
+            cd ~/system-backend
+            git pull origin master
+            npm install
+            npm run prod:server:restart
