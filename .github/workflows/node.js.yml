@@ -31,7 +31,7 @@ jobs:
 
       - name: Deploy production
         if: github.ref == 'refs/heads/master'
-        uses: garygrossgarten/github-action-ssh@release
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
