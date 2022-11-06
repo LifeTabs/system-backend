@@ -34,7 +34,7 @@ const onlyGuess = (req, res, next) => {
 
 const onlyUser = (req, res, next) => {
 	if(!isAuthenticated(req, res, next)) {
-		res.send(405, response.send_error("Vui lòng đăng nhập!"));
+		res.send(401, response.send_error("Vui lòng đăng nhập!"));
 		return;
 	}
 	next();
