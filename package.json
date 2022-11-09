@@ -4,8 +4,13 @@
   "description": "",
   "main": "index.js",
   "imports": {
+    "#root/*.js": "./*.js",
+    "#util/*.js": "./util/*.js",
     "#users": {
       "default": "./Model/Users.js"
+    },
+    "#weather": {
+      "default": "./Model/Weather.js"
     },
     "#response": {
       "default": "./util/response.js"
@@ -20,7 +25,7 @@
       "default": "./src/middlewares/Authentication.js"
     },
     "#sendRequest": {
-      "default": "./util/outbound.js"
+      "default": "./util/request/outbound.js"
     }
   },
   "dependencies": {
@@ -66,6 +71,6 @@
     "prettier": "^2.7.1"
   },
   "lint-staged": {
-    ".{js,mjs,ts,tsx,jsx}": "npm run lint"
+    "*.{js,mjs,ts,tsx,jsx}": "npm run lint"
   }
 }

@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import routers from "./router/router.js";
 import rateLimitRequest from "./util/rateLimitRequest.js";
+import response from "#response";
 dotenv.config();
 const app = express();
 const PORT_SERVER = 3000;
@@ -23,6 +24,16 @@ app.use(cors()); // Enable cors for all origins
  */
 routers.forEach((router) => {
 	app[router.method](router.path, ...router.controller.middlewares, router.controller.view);
+});
+
+/**
+ * // TODO Try catch errors from expressjs
+ */
+
+// eslint-disable-next-line no-unused-vars
+app.use(function(err, req, res, next) {
+	console.error(err);
+	res.status(500).send(response.send_error("Something went wrong!")).end();
 });
 
 app.listen(PORT_SERVER, () => {

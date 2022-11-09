@@ -4,6 +4,7 @@ import login from "../src/controllers/api/user/login.js";
 import updateUser from "../src/controllers/api/user/update.js";
 import UserInfo from "../src/controllers/api/user/info.js";
 import ShareToday from "../src/controllers/api/share/today.js";
+import currentWeather from "../src/controllers/api/weather/current-weather.js";
 
 const routers = [
 	{
@@ -35,6 +36,11 @@ const routers = [
 		method: "get",
 		path: "/api/share/today",
 		controller: ShareToday
-	}
+	},
+	{
+		method: "get",
+		path: "/api/weather/current",
+		controller: currentWeather
+	},
 ];
 export default routers;
