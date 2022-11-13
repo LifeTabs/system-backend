@@ -40,4 +40,5 @@ jobs:
             cd ~/system-backend
             git pull origin master
             npm install
+            npm run migrate
             npm run prod:server:restart

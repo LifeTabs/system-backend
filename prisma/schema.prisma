@@ -17,4 +17,14 @@ model User {
   password  String?
   name      String?
   createdAt DateTime @default(now())
+  Location  Location[]
+}
+
+model Location {
+  id        Int      @id @default(autoincrement())
+  location  Json    
+  userId    Int
+  createdAt DateTime @default(now())
+  User     User?   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  @@index([userId], name: "user")
 }
