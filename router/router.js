@@ -7,6 +7,7 @@ import ShareToday from "../src/controllers/api/share/today.js";
 import currentWeather from "../src/controllers/api/weather/current-weather.js";
 import currentAstronomy from "../src/controllers/api/weather/current-astronomy.js";
 import forecast from "../src/controllers/api/weather/forecast.js";
+import locationSearch from "../src/controllers/api/weather/location-search.js";
 
 const routers = [
 	{
@@ -53,6 +54,11 @@ const routers = [
 		method: "get",
 		path: "/api/weather/forecast",
 		controller: forecast
+	},
+	{
+		method: "get",
+		path: "/api/weather/location-search",
+		controller: locationSearch
 	},
 ];
 export default routers;

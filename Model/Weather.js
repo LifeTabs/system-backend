@@ -8,6 +8,7 @@ class Weather {
 	airQuality = {};
 	currentAstronomy = {};
 	forecastData = {};
+	locationData = {};
 	params;
 	constructor ({ q,...params }) {
 		this.q = q;
@@ -76,6 +77,23 @@ class Weather {
 				});
 		});
 	}
+	setLocationSearch(params = {}) {
+		return new Promise((solver) => {
+			adapterWeatherAPI.get("/search.json", {
+				params: {
+					q: this.q,
+					...params
+				},
+			})
+				.then(({ data }) => {
+					return data;
+				})
+				.then((result) => {
+					this.locationData = result;
+					solver(result);
+				});
+		});
+	}
 	getCurrentWeather() {
 		return new Promise((solver) => {
 			if(Object.keys(this.currentWeather).length) {
@@ -106,6 +124,17 @@ class Weather {
 			}
 			this.setForecast(this.params).then(() => {
 				solver(this.forecastData);
+			});
+		});
+	}
+	getLocations() {
+		return new Promise((solver) => {
+			if(Object.keys(this.locationData).length) {
+				solver(this.locationData);
+				return;
+			}
+			this.setLocationSearch(this.params).then(() => {
+				solver(this.locationData);
 			});
 		});
 	}
