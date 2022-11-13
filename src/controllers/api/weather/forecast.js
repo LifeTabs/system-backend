@@ -4,7 +4,7 @@ import { send_success, send_error } from "#response";
 import Weather from "#weather";
 
 const view = (req, res) => {
-	const params = request.require(req, ["q"]);
+	const params = request.require(req, ["q","days"]);
 	if(!params) {
 		res.status(422).send(send_error("Thiếu params"));
 		return;

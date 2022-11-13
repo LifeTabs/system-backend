@@ -8,8 +8,10 @@ class Weather {
 	airQuality = {};
 	currentAstronomy = {};
 	forecastData = {};
-	constructor ({ q }) {
+	params;
+	constructor ({ q,...params }) {
 		this.q = q;
+		this.params = params;
 		const [ lat, lon ] = this.q.split(",");
 		this.lat = lat;
 		this.lon = lon;
@@ -80,7 +82,7 @@ class Weather {
 				solver(this.currentWeather);
 				return;
 			}
-			this.setCurrentWeather().then(() => {
+			this.setCurrentWeather(this.params).then(() => {
 				solver(this.currentWeather);
 			});
 		});
@@ -91,7 +93,7 @@ class Weather {
 				solver(this.currentAstronomy);
 				return;
 			}
-			this.setCurrentAstronomy().then(() => {
+			this.setCurrentAstronomy(this.params).then(() => {
 				solver(this.currentAstronomy);
 			});
 		});
@@ -102,7 +104,7 @@ class Weather {
 				solver(this.forecastData);
 				return;
 			}
-			this.setForecast().then(() => {
+			this.setForecast(this.params).then(() => {
 				solver(this.forecastData);
 			});
 		});
