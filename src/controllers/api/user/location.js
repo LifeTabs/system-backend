@@ -22,9 +22,20 @@ const create = (req, res) => {
 		});
 };
 
-const update = (req, res) => {
+const update = async (req, res) => {
 	const params = request.only(req, ["id", "location", "isActivating"]);
 	const locationModel = new Locations();
+	if(params.isActivating) {
+		await locationModel.updateMany({
+			where: {
+				userId: req.location.userId,
+				isActivating: true
+			},
+			data: {
+				isActivating: false,
+			}
+		});
+	}
 	locationModel.update({
 		where: {
 			id: parseInt(params.id),

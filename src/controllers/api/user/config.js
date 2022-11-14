@@ -19,10 +19,10 @@ const view = (req, res) => {
 	}));
 	Promise.all(handlers)
 		.then(([locations, current_setting]) => {
-			res.send(response.send_success({
-				locations,
-				current_setting,
-			}));
+			const location = {};
+			location.locations = locations;
+			location.current_setting = current_setting;
+			res.send(response.send_success({location}));
 		});
 };
 

@@ -19,6 +19,7 @@ const canModify = (req, res, next) => {
 	})
 		.then((_) => {
 			if(!_) return res.status(403).send(send_error("Không đủ quyền vào tài nguyên này"));
+			req.location = _;
 			next();
 		});
 };
