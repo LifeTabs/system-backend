@@ -8,6 +8,8 @@ import currentWeather from "../src/controllers/api/weather/current-weather.js";
 import currentAstronomy from "../src/controllers/api/weather/current-astronomy.js";
 import forecast from "../src/controllers/api/weather/forecast.js";
 import locationSearch from "../src/controllers/api/weather/location-search.js";
+import userConfig from "../src/controllers/api/user/config.js";
+import location from "../src/controllers/api/user/location.js";
 
 const routers = [
 	{
@@ -59,6 +61,26 @@ const routers = [
 		method: "get",
 		path: "/api/weather/location-search",
 		controller: locationSearch
+	},
+	{
+		method: "get",
+		path: "/api/user/config",
+		controller: userConfig
+	},
+	{
+		method: "post",
+		path: "/api/user/location",
+		controller: location.create
+	},
+	{
+		method: "patch",
+		path: "/api/user/location",
+		controller: location.update
+	},
+	{
+		method: "delete",
+		path: "/api/user/location",
+		controller: location.delete
 	},
 ];
 export default routers;

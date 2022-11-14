@@ -24,7 +24,9 @@ model Location {
   id        Int      @id @default(autoincrement())
   location  Json    
   userId    Int
+  isActivating  Boolean @default(false)
   createdAt DateTime @default(now())
+  @@unique([id, userId], name: "isOwner")
   User     User?   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   @@index([userId], name: "user")
 }
