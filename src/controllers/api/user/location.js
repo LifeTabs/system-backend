@@ -63,6 +63,22 @@ const deleteLocation = (req, res) => {
 		});
 };
 
+const resetLocation = (req, res) => {
+	const locationModel = new Locations();
+	locationModel.updateMany({
+		where: {
+			userId: parseInt(req.user.id),
+			isActivating: true,
+		},
+		data: {
+			isActivating: false,
+		}
+	})
+		.then((location) => {
+			res.send(response.send_success(location));
+		});
+};
+
 
 const middlewares = [
 	onlyUser,
@@ -84,5 +100,9 @@ export default {
 	delete: {
 		view: deleteLocation,
 		middlewares: middlewaresModify,
+	},
+	reset: {
+		view: resetLocation,
+		middlewares,
 	},
 };
