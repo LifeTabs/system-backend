@@ -24,6 +24,7 @@ function Users () {
 			data: {
 				userId: user.id,
 				unit: {
+					backgroundUpdate: true,
 					temp: "c",
 					windy: "kph",
 					pressure: "in",
