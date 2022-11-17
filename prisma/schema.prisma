@@ -19,6 +19,7 @@ model User {
   createdAt DateTime @default(now())
   Location  Location[]
   Unit      Unit[]
+  Shortcut  Shortcut[]
 }
 
 model Location {
@@ -38,6 +39,17 @@ model Unit {
   userId    Int
   createdAt DateTime @default(now())
   @@unique([userId])
+  User     User?   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  @@index([userId], name: "user")
+}
+
+model Shortcut {
+  id        Int      @id @default(autoincrement())
+  url       String
+  imageUrl  String
+  name      String
+  userId    Int
+  createdAt DateTime @default(now())
   User     User?   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   @@index([userId], name: "user")
 }

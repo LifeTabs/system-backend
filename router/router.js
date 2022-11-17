@@ -11,6 +11,7 @@ import locationSearch from "../src/controllers/api/weather/location-search.js";
 import userConfig from "../src/controllers/api/user/config.js";
 import location from "../src/controllers/api/user/location.js";
 import unit from "../src/controllers/api/user/unit.js";
+import shortcut from "#root/src/controllers/api/shortcut/shortcut.js";
 
 const routers = [
 	{
@@ -92,6 +93,16 @@ const routers = [
 		method: "patch",
 		path: "/api/user/unit",
 		controller: unit.update
+	},
+	{
+		method: "get",
+		path: "/api/shortcut",
+		controller: shortcut.view
+	},
+	{
+		method: "post",
+		path: "/api/shortcut",
+		controller: shortcut.create
 	},
 ];
 export default routers;

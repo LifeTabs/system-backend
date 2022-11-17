@@ -17,6 +17,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(rateLimitRequest);
 app.use(cors()); // Enable cors for all origins
+app.use(express.static("storage"));
 
 /**
  // TODO Dynamic router, middleware
