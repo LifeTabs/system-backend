@@ -31,7 +31,7 @@ class Weather {
 				})
 				.then((result) => {
 					this.currentWeather = result;
-					if(!Object.keys(this.currentWeather?.current?.air_quality).length) {
+					if(!Object.keys(this.currentWeather?.current?.air_quality ?? {}).length) {
 						this.fetchAirQuality()
 							.then(() => {
 								solver(result);

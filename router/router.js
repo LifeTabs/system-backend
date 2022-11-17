@@ -10,6 +10,7 @@ import forecast from "../src/controllers/api/weather/forecast.js";
 import locationSearch from "../src/controllers/api/weather/location-search.js";
 import userConfig from "../src/controllers/api/user/config.js";
 import location from "../src/controllers/api/user/location.js";
+import unit from "../src/controllers/api/user/unit.js";
 
 const routers = [
 	{
@@ -81,6 +82,16 @@ const routers = [
 		method: "delete",
 		path: "/api/user/location",
 		controller: location.delete
+	},
+	{
+		method: "patch",
+		path: "/api/user/reset-location",
+		controller: location.reset
+	},
+	{
+		method: "patch",
+		path: "/api/user/unit",
+		controller: unit.update
 	},
 ];
 export default routers;

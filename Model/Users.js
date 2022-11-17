@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { v4 as uuid } from "uuid";
 import md5 from "md5";
+import Unit from "./Unit.js";
 // import Model from "./Model.js"
 const prisma = new PrismaClient();
 
@@ -17,6 +18,23 @@ function Users () {
 		});
 		return params;
 	};
+	const createUnit = (user) => {
+		const unitModel = new Unit();
+		return unitModel.create({
+			data: {
+				userId: user.id,
+				unit: {
+					temp: "c",
+					windy: "kph",
+					pressure: "in",
+					precip: "mm",
+				},
+			}
+		});
+	};
+	const boots = [
+		createUnit
+	];
 	const callbacks = {
 		update (params) {
 			const res = createHash(params.data);
@@ -30,12 +48,27 @@ function Users () {
 		}
 	};
 	const overWrites = {
-		createUser () {
-			return prismaUser.create({
-				data: {
-					uuid: uuid()
-				}
+		createUser (params = {}) {
+			const handler = new Promise((solver) => {
+				prismaUser.create({
+					data: {
+						uuid: uuid(),
+						...params
+					}
+				})
+					.then((user) => {
+						const handlers = [];
+						boots.forEach(boot => {
+							handlers.push(boot(user));
+						});
+						Promise.all(handlers)
+							.then(() => {
+								solver(user);
+							});
+						return user;
+					});
 			});
+			return handler;
 		}
 	};
 	const user = new Proxy(prismaUser, {

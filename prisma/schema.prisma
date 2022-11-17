@@ -18,6 +18,7 @@ model User {
   name      String?
   createdAt DateTime @default(now())
   Location  Location[]
+  Unit      Unit[]
 }
 
 model Location {
@@ -27,6 +28,16 @@ model Location {
   isActivating  Boolean @default(false)
   createdAt DateTime @default(now())
   @@unique([id, userId], name: "isOwner")
+  User     User?   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  @@index([userId], name: "user")
+}
+
+model Unit {
+  id        Int      @id @default(autoincrement())
+  unit      Json
+  userId    Int
+  createdAt DateTime @default(now())
+  @@unique([userId])
   User     User?   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   @@index([userId], name: "user")
 }
