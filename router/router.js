@@ -104,5 +104,15 @@ const routers = [
 		path: "/api/shortcut",
 		controller: shortcut.create
 	},
+	{
+		method: "patch",
+		path: "/api/shortcut",
+		controller: shortcut.update
+	},
+	{
+		method: "delete",
+		path: "/api/shortcut",
+		controller: shortcut.delete
+	},
 ];
 export default routers;

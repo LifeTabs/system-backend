@@ -52,18 +52,16 @@ const update = async (req,res) => {
 		res.status(422).send(response.send_error("Thiếu params"));
 		return;
 	}
-	fs.unlinkSync(`./storage/${req.shortcut.imageUrl}`);
+	fs.unlinkSync(`./storage${req.shortcut.imageUrl}`);
 	getFavicon(params.url, userId)
 		.then(({ pathDB }) => {
 			shortcutModel.update({
 				where: {
 					id: req.shortcut.id,
-					imageUrl: pathDB,
-					...params,
 				},
 				data: {
-					isActivating: params.isActivating,
-					location: params.location,
+					imageUrl: pathDB,
+					...params,
 				}    
 			})
 				.then((location) => {
@@ -72,8 +70,17 @@ const update = async (req,res) => {
 		});
 };
 
-const deleteShortcut = () => {
-	
+const deleteShortcut = (req, res) => {
+	const shortcutModel = new Shortcuts();
+	fs.unlinkSync(`./storage${req.shortcut.imageUrl}`);
+	shortcutModel.delete({
+		where: {
+			id: req.shortcut.id,
+		}   
+	})
+		.then((location) => {
+			res.send(response.send_success(location));
+		});
 };
 
 const getFavicon = (url, userId) => {
