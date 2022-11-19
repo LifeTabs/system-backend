@@ -50,6 +50,7 @@ model Shortcut {
   name      String
   userId    Int
   createdAt DateTime @default(now())
+  @@unique([id, userId], name: "isOwner")
   User     User?   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   @@index([userId], name: "user")
 }

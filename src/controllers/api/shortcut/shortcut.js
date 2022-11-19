@@ -2,7 +2,7 @@ import * as request from "#request";
 import response from "#response";
 import { onlyUser } from "#authentication";
 import Shortcuts from "#root/Model/Shortcut.js";
-import { canModify } from "#root/src/middlewares/Location.js";
+import { canModify } from "#root/src/middlewares/Shortcut.js";
 import sendRequest from "#util/request/outbound.js";
 import fs from "fs";
 import { v4 as uuidFunc } from "uuid";
@@ -29,18 +29,8 @@ const create = (req, res) => {
 		res.status(422).send(response.send_error("Thiếu params"));
 		return;
 	}
-	const fileName = `${userId}_${uuidFunc()}.png`;
-	const pathDB = `/favicon/${fileName}`;
-	const pathSave = `./storage${pathDB}`;
-	sendRequest.get(process.env.URL_GET_FAVICON, {
-		params: {
-			domain: params.url,
-			sz: 128,
-		},
-		responseType: "stream",
-	})
-		.then((result) => {
-			result.data.pipe(fs.createWriteStream(pathSave));
+	getFavicon(params.url, userId)
+		.then(({pathDB}) => {
 			shortcutModel.create({
 				data: {
 					userId,
@@ -54,14 +44,59 @@ const create = (req, res) => {
 		});
 };
 
-const update = async () => {
-	
+const update = async (req,res) => {
+	const shortcutModel = new Shortcuts();
+	const params = request.require(req, ["url", "name"]);
+	const userId = req.shortcut.userId;
+	if(!params) {
+		res.status(422).send(response.send_error("Thiếu params"));
+		return;
+	}
+	fs.unlinkSync(`./storage/${req.shortcut.imageUrl}`);
+	getFavicon(params.url, userId)
+		.then(({ pathDB }) => {
+			shortcutModel.update({
+				where: {
+					id: req.shortcut.id,
+					imageUrl: pathDB,
+					...params,
+				},
+				data: {
+					isActivating: params.isActivating,
+					location: params.location,
+				}    
+			})
+				.then((location) => {
+					res.send(response.send_success(location));
+				});
+		});
 };
 
 const deleteShortcut = () => {
 	
 };
 
+const getFavicon = (url, userId) => {
+	return new Promise((resolve, reject) => {
+		const fileName = `${userId}_${uuidFunc()}.png`;
+		const pathDB = `/favicon/${fileName}`;
+		const pathSave = `./storage${pathDB}`;
+		sendRequest.get(process.env.URL_GET_FAVICON, {
+			params: {
+				domain: url,
+				sz: 128,
+			},
+			responseType: "stream",
+		})
+			.then((result) => {
+				result.data.pipe(fs.createWriteStream(pathSave));
+				resolve({pathDB});
+			})
+			.catch((e) => {
+				reject(e);
+			});
+	});
+};
 
 
 const middlewares = [
