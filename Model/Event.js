@@ -1,0 +1,36 @@
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+
+function Events () {
+	const prismaEvent = prisma.event;
+	const callbacks = {
+		update (params) {
+			// const res = createHash(params.data);
+			// params.data = res;
+			return params;
+		},
+		findMany(params) {
+			// const res = createHash(params.where);
+			// params.where = res;
+			return params;
+		}
+	};
+	const overWrites = {
+	};
+	const event = new Proxy(prismaEvent, {
+		get (target, key) {
+			/**
+       * // TODO Binding new function
+       * @param  {...any} args Get all args from function
+       * @returns function
+       */
+			const handler = (...args) => {
+				const func = overWrites[key] ? overWrites[key] : target[key];
+				return func.apply(target, callbacks[key] ? [callbacks[key](...args)] : args);
+			};
+			return handler;
+		}
+	});
+	return event;
+}
+export default Events;

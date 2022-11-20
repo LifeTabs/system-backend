@@ -12,6 +12,7 @@ import userConfig from "../src/controllers/api/user/config.js";
 import location from "../src/controllers/api/user/location.js";
 import unit from "../src/controllers/api/user/unit.js";
 import shortcut from "#root/src/controllers/api/shortcut/shortcut.js";
+import event from "#root/src/controllers/api/event/event.js";
 
 const routers = [
 	{
@@ -113,6 +114,11 @@ const routers = [
 		method: "delete",
 		path: "/api/shortcut",
 		controller: shortcut.delete
+	},
+	{
+		method: "get",
+		path: "/api/event",
+		controller: event.view
 	},
 ];
 export default routers;
