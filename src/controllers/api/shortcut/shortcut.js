@@ -47,8 +47,23 @@ const create = (req, res) => {
 const update = async (req,res) => {
 	const shortcutModel = new Shortcuts();
 	const params = request.require(req, ["url", "name"]);
+	const paramsOption = request.only(req, ["isPin"]);
 	const userId = req.shortcut.userId;
 	if(!params) {
+		if(paramsOption.isPin !== null) {
+			shortcutModel.update({
+				where: {
+					id: req.shortcut.id,
+				},
+				data: {
+					...paramsOption,
+				}    
+			})
+				.then((location) => {
+					res.send(response.send_success(location));
+				});
+			return;
+		}
 		res.status(422).send(response.send_error("Thiếu params"));
 		return;
 	}
@@ -62,6 +77,7 @@ const update = async (req,res) => {
 				data: {
 					imageUrl: pathDB,
 					...params,
+					...paramsOption,
 				}    
 			})
 				.then((location) => {

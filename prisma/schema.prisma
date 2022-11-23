@@ -49,6 +49,7 @@ model Shortcut {
   url       String
   imageUrl  String
   name      String
+  isPin     Boolean @default(false)
   userId    Int
   createdAt DateTime @default(now())
   @@unique([id, userId], name: "isOwner")
