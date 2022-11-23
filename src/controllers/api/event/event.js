@@ -1,4 +1,4 @@
-// import * as request from "#request";
+import * as request from "#request";
 import response from "#response";
 import { onlyUser } from "#authentication";
 import Events from "#root/Model/Event.js";
@@ -25,8 +25,26 @@ const view = (req, res) => {
 		});
 };
 
-const create = () => {
-	
+const create = (req, res) => {
+	const eventModel = new Events();
+	const required = request.require(req, ["name", "date", "type_time", "schedule"]);
+	const only = request.only(req, ["description"]);
+	const defaultParams = {
+		country: "vi",
+  	priority: 0,
+  	userId: req.user.id
+	};
+	if(!required) {
+		res.status(422).send(response.send_error("Thiếu params"));
+		return;
+	}
+	const params = {...required, ...only, ...defaultParams};
+	eventModel.create({
+		data: params,
+	})
+		.then((event) => {
+			res.send(response.send_success(event));
+		});
 };
 
 const update = async () => {

@@ -120,5 +120,10 @@ const routers = [
 		path: "/api/event",
 		controller: event.view
 	},
+	{
+		method: "post",
+		path: "/api/event",
+		controller: event.create
+	},
 ];
 export default routers;
