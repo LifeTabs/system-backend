@@ -125,5 +125,15 @@ const routers = [
 		path: "/api/event",
 		controller: event.create
 	},
+	{
+		method: "patch",
+		path: "/api/event",
+		controller: event.update
+	},
+	{
+		method: "delete",
+		path: "/api/event",
+		controller: event.delete
+	},
 ];
 export default routers;

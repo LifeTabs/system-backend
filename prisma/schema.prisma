@@ -61,7 +61,8 @@ model Event {
   id            Int      @id @default(autoincrement())
   name          String
   description   String
-  date          String
+  date          String?
+  full_date     DateTime?
   type_time     Int
   schedule      Int
   country       String
