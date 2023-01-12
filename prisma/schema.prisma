@@ -11,17 +11,19 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  uuid      String   @unique
-  email     String?   @unique
-  password  String?
-  name      String?
-  createdAt DateTime @default(now())
-  Location  Location[]
-  Unit      Unit[]
-  Shortcut  Shortcut[]
-  Event     Event[]
-  Focus_Mission   Focus_Mission[]
+  id              Int                 @id @default(autoincrement())
+  uuid            String              @unique
+  email           String?             @unique
+  password        String?
+  name            String?
+  createdAt       DateTime            @default(now())
+  Location        Location[]
+  Unit            Unit[]
+  Shortcut        Shortcut[]
+  Event           Event[]
+  Focus_Mission   FocusMission[]
+  Subscribers     Subscribers[]
+  BackgroudJobs   BackgroundJobs[]
 }
 
 model Location {
@@ -61,7 +63,7 @@ model Shortcut {
 model Event {
   id            Int      @id @default(autoincrement())
   name          String
-  description   String
+  description   String?
   date          String?
   full_date     DateTime?
   type_time     Int
@@ -69,13 +71,14 @@ model Event {
   country       String
   priority      Int
   userId        Int?
-  createdAt DateTime @default(now())
+  createdAt     DateTime @default(now())
   @@unique([id, userId], name: "isOwner")
-  User     User?   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  User              User?   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  BackgroundJobs    BackgroundJobs[]
   @@index([userId], name: "user")
 }
 
-model Focus_Mission {
+model FocusMission {
   id            Int @default(autoincrement())
   duration      BigInt
   userId        Int
@@ -84,4 +87,23 @@ model Focus_Mission {
   User     User?   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   @@index([userId], name: "user")
 
+}
+
+model Subscribers {
+  id                  Int       @id @default(autoincrement())
+  userId              Int
+  uri_notification    String    @db.Text
+  createdAt           DateTime  @default(now())
+  User                User?     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  @@index([userId],   name: "user")
+}
+
+model BackgroundJobs {
+  id                  Int             @id @default(autoincrement())
+  eventId             Int?
+  userId              Int?            
+  createdAt           DateTime        @default(now())
+  Event               Event?          @relation(fields: [eventId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  User                User?           @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  @@index([userId], name: "userId")
 }

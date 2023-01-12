@@ -6,6 +6,7 @@ import moment from "moment";
 import routers from "./router/router.js";
 import rateLimitRequest from "./util/rateLimitRequest.js";
 import response from "#response";
+import "#util/boots.js";
 dotenv.config();
 const app = express();
 const PORT_SERVER = 3000;

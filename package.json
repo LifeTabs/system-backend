@@ -43,7 +43,8 @@
     "nodemon": "^2.0.20",
     "pm2": "^5.2.2",
     "prisma": "^4.4.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "ws": "^8.11.0"
   },
   "scripts": {
     "server": "nodemon server.js",
@@ -59,7 +60,7 @@
   "author": "",
   "license": "ISC",
   "prisma": {
-    "seed": "node seed/User.js"
+    "seed": "node seed/Event.js"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.2.0",

@@ -1,10 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import BackgroundJobs from "./BackgroundJobs.js";
-// import { ws } from "#util/websocket.js";
+// import { sendToWorkerBgJob } from "#util/websocket.js";
 const prisma = new PrismaClient();
 
-function Events () {
-	const prismaEvent = prisma.event;
+function Subscribers () {
+	const prismaSubscribers = prisma.Subscribers;
 	const callbacks = {
 		update (params) {
 			// const res = createHash(params.data);
@@ -20,22 +19,35 @@ function Events () {
 	const overWrites = {
 		create(...args) {
 			return new Promise((solver, reject) => {
-				prismaEvent.create.apply(prismaEvent, args)
+				prismaSubscribers.create.apply(prismaSubscribers, args)
 					.then((res) => {
-						const BgJob = new BackgroundJobs();
-						BgJob.create({
-							data: {
-								eventId: res.id,
+						prismaSubscribers.findFirst({
+							where: {
 								userId: res.userId,
+								timeOut: {
+									gt: new Date(),
+								}
+							},
+							include: {
+								Subscribers: {
+									uri_notification: true,
+								}
+							},
+							orderBy: {
+								timeOut: "DESC",
 							}
-						});
-						solver(res);
+						})
+							.then((res) => {
+								solver();
+								console.log(res);
+								// sendToWorkerBgJob(res);
+							});
 					})
 					.catch((err) => reject(err));
 			});
 		}
 	};
-	const event = new Proxy(prismaEvent, {
+	const event = new Proxy(prismaSubscribers, {
 		get (target, key) {
 			/**
        * // TODO Binding new function
@@ -51,4 +63,4 @@ function Events () {
 	});
 	return event;
 }
-export default Events;
+export default Subscribers;
