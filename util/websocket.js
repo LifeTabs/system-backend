@@ -24,6 +24,8 @@ const sendToWorkerBgJob = (json) => {
 		});
 };
 
+onReady(); // Init connection
+
 export {
 	sendToWorkerBgJob,
 	onReady,

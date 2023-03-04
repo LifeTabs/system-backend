@@ -33,7 +33,33 @@ function Events () {
 					})
 					.catch((err) => reject(err));
 			});
-		}
+		},
+		update(...args) {
+			return new Promise((solver, reject) => {
+				return prismaEvent.update.apply(prismaEvent, args)
+					.then((res) => {
+						const BgJob = new BackgroundJobs();
+						BgJob.refresh(res)
+							.then(() => {
+								solver(res);
+							});
+					})
+					.catch((err) => reject(err));
+			});
+		},
+		delete(...args) {
+			return new Promise((solver, reject) => {
+				return prismaEvent.delete.apply(prismaEvent, args)
+					.then((res) => {
+						const BgJob = new BackgroundJobs();
+						BgJob.refresh(res)
+							.then(() => {
+								solver(res);
+							});
+					})
+					.catch((err) => reject(err));
+			});
+		},
 	};
 	const event = new Proxy(prismaEvent, {
 		get (target, key) {

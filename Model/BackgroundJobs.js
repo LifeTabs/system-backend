@@ -51,9 +51,13 @@ function BackgroundJobs () {
 					})
 					.then((event)=> {
 						sendToWorkerBgJob(event);
+						solver();
 					})
 					.catch((err) => reject(err));
 			});
+		},
+		refresh (userData) {
+			return boots.refresh(userData);
 		},
 	};
 	const event = new Proxy(prismaBgJob, {
@@ -74,9 +78,9 @@ function BackgroundJobs () {
 }
 
 const boots = {
+	BackgroundJobsModel: new BackgroundJobs(),
 	up () {
-		const BackgroundJobsModel = new BackgroundJobs();
-		return BackgroundJobsModel.findMany({
+		return this.BackgroundJobsModel.findMany({
 			where: {
 				Event: {
 					full_date: {
@@ -102,6 +106,41 @@ const boots = {
 			},
 			distinct: ["userId"]
 		});
+	},
+	getByUser (userId) {
+		return this.BackgroundJobsModel.findFirst({
+			where: {
+				Event: {
+					full_date: {
+						gt: new Date() 
+					},
+					userId: userId,
+				}
+			},
+			include: {
+				Event: {
+					include:{
+						User: {
+							include: {
+								Subscribers: true,
+							}
+						},
+					},
+				},
+			},
+			orderBy: {
+				Event: {
+					full_date: "asc"
+				}
+			},
+			distinct: ["userId"]
+		});
+	},
+	refresh (userData) {
+		return this.getByUser(userData.userId).
+			then((event) => {
+				sendToWorkerBgJob(event);
+			});
 	}
 };
 
