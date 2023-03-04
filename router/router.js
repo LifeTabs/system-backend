@@ -11,9 +11,9 @@ import locationSearch from "../src/controllers/api/weather/location-search.js";
 import userConfig from "../src/controllers/api/user/config.js";
 import location from "../src/controllers/api/user/location.js";
 import unit from "../src/controllers/api/user/unit.js";
-import shortcut from "#root/src/controllers/api/shortcut/shortcut.js";
-import event from "#root/src/controllers/api/event/event.js";
-import subscriber from "#root/src/controllers/api/user/subscriber.js";
+import shortcut from "../src/controllers/api/shortcut/shortcut.js";
+import event from "../src/controllers/api/event/event.js";
+import subscriber from "../src/controllers/api/user/subscriber.js";
 
 const routers = [
 	{
