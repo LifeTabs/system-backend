@@ -75,5 +75,8 @@
   },
   "lint-staged": {
     "*.{js,mjs,ts,tsx,jsx}": "npm run lint"
+  },
+  "engines": {
+    "node": ">=16"
   }
 }
