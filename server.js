@@ -6,7 +6,7 @@ import moment from "moment";
 import routers from "./router/router.js";
 import rateLimitRequest from "./util/rateLimitRequest.js";
 import response from "#response";
-import "#util/boots.js";
+import "./util/boots.js";
 dotenv.config();
 const app = express();
 const MAX_AGE_CACHE = 60*60*24*30; // 1 month = 2592000 s
