@@ -9,7 +9,7 @@ import response from "#response";
 import "#util/boots.js";
 dotenv.config();
 const app = express();
-const PORT_SERVER = 3000;
+const PORT_SERVER = process.env.PORT || 3000;
 const MAX_AGE_CACHE = 60*60*24*30; // 1 month = 2592000 s
 
 /**
