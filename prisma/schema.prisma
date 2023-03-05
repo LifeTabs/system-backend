@@ -24,6 +24,7 @@ model User {
   Focus_Mission   FocusMission[]
   Subscribers     Subscribers[]
   BackgroudJobs   BackgroundJobs[]
+  @@index([id, uuid, email])
 }
 
 model Location {
@@ -34,7 +35,7 @@ model Location {
   createdAt DateTime @default(now())
   @@unique([id, userId], name: "isOwner")
   User     User?   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  @@index([userId], name: "user")
+  @@index([userId])
 }
 
 model Unit {
@@ -44,7 +45,7 @@ model Unit {
   createdAt DateTime @default(now())
   @@unique([userId])
   User     User?   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  @@index([userId], name: "user")
+  @@index([userId])
 }
 
 model Shortcut {
@@ -57,7 +58,7 @@ model Shortcut {
   createdAt DateTime @default(now())
   @@unique([id, userId], name: "isOwner")
   User     User?   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  @@index([userId], name: "user")
+  @@index([userId])
 }
 
 model Event {
@@ -75,7 +76,7 @@ model Event {
   @@unique([id, userId], name: "isOwner")
   User              User?   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   BackgroundJobs    BackgroundJobs[]
-  @@index([userId], name: "user")
+  @@index([userId])
 }
 
 model FocusMission {
@@ -85,7 +86,7 @@ model FocusMission {
   createdAt     DateTime @default(now())
   @@unique([id, userId], name: "isOwner")
   User     User?   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  @@index([userId], name: "user")
+  @@index([userId])
 
 }
 
