@@ -1,6 +1,10 @@
 import WebSocket from "ws";
 
-const ws = new WebSocket(`${process.env.WORKER_WEBSOCKET_ENDPOINT}/system-backend`);
+const ws = new WebSocket(`${process.env.WORKER_WEBSOCKET_ENDPOINT}/system-backend`, {
+	headers: {
+		"X-BACKEND-KEY-PAIR": process.env.KEY_PAIR_WORKER
+	}
+});
 
 let isReady = false;
 
