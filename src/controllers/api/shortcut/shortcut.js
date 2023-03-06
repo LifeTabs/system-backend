@@ -3,9 +3,8 @@ import response from "#response";
 import { onlyUser } from "#authentication";
 import Shortcuts from "#root/Model/Shortcut.js";
 import { canModify } from "#root/src/middlewares/Shortcut.js";
-import sendRequest from "#util/request/outbound.js";
+import workerAPI from "#util/request/worker.js";
 import fs from "fs";
-import { v4 as uuidFunc } from "uuid";
 
 const view = (req, res) => {
 	const shortcutModel = new Shortcuts();
@@ -70,7 +69,7 @@ const update = async (req,res) => {
 	fs.unlinkSync(`./storage${req.shortcut.imageUrl}`);
 	getFavicon(params.url, userId)
 		.then(({ pathDB }) => {
-			shortcutModel.update({
+			return shortcutModel.update({
 				where: {
 					id: req.shortcut.id,
 				},
@@ -79,41 +78,61 @@ const update = async (req,res) => {
 					...params,
 					...paramsOption,
 				}    
-			})
-				.then((location) => {
-					res.send(response.send_success(location));
-				});
+			});
+		})
+		.then(async (shortcut) => {
+			await workerAPI.delete("/favicon", {
+				params: {
+					id: req.shortcut.imageUrl
+				}
+			});
+			return shortcut;
+		})
+		.then((shortcut) => {
+			res.send(response.send_success(shortcut));
 		});
 };
 
 const deleteShortcut = (req, res) => {
 	const shortcutModel = new Shortcuts();
-	fs.unlinkSync(`./storage${req.shortcut.imageUrl}`);
 	shortcutModel.delete({
 		where: {
 			id: req.shortcut.id,
 		}   
 	})
-		.then((location) => {
-			res.send(response.send_success(location));
+		.then(async (shortcut) => {
+			await workerAPI.delete("/favicon", {
+				params: {
+					id: shortcut.imageUrl
+				}
+			});
+			return shortcut;
+		})
+		.then((shortcut) => {
+			res.send(response.send_success(shortcut));
 		});
 };
 
-const getFavicon = (url, userId) => {
+const getFavicon = (url) => {
 	return new Promise((resolve, reject) => {
-		const fileName = `${userId}_${uuidFunc()}.png`;
-		const pathDB = `/favicon/${fileName}`;
-		const pathSave = `./storage${pathDB}`;
-		sendRequest.get(process.env.URL_GET_FAVICON, {
-			params: {
-				domain: url,
+		const createURL = (urlStr) => {
+			const url = new URL(process.env.URL_GET_FAVICON);
+			url.search = new URLSearchParams({
+				domain: urlStr,
 				sz: 128,
-			},
-			responseType: "stream",
+			}).toString();
+			return url.href;
+		};
+		workerAPI.post("/favicon/", {
+			url: createURL(url)
 		})
 			.then((result) => {
-				result.data.pipe(fs.createWriteStream(pathSave));
-				resolve({pathDB});
+				if(result.data.status) {
+					resolve({pathDB: result.data.data.id});
+				}
+				else {
+					reject(result.data);
+				}
 			})
 			.catch((e) => {
 				reject(e);
